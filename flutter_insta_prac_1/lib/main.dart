@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_insta_prac_1/screens/home_screen.dart';
 import 'package:flutter_insta_prac_1/screens/profile_screen.dart';
 import 'package:flutter_insta_prac_1/screens/shop_screen.dart';
+import 'package:flutter_insta_prac_1/screens/shop_screen.dart';
+import 'package:flutter_insta_prac_1/screens/upload_screen.dart';
 import 'package:flutter_insta_prac_1/style.dart' as style;
 
 
@@ -13,34 +15,67 @@ void main() {
   ));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-    appBar: AppBar(
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
           // leading: ,
           title: Text('Instagram'),
           actions: [
-            IconButton(onPressed: (() {}), icon: Icon(Icons.add_box_outlined))
+            IconButton(
+              onPressed: (() {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (c) {return UploadScreen();})
+                );
+              }),
+              icon: Icon(Icons.add_box_outlined)
+            )
           ],
-      ),
+        ),
 
-      body: [HomeScreen(), ShopScreen()][0],
+        body: TabBarView(
+          children: [
+            Center(
+              child: HomeScreen(),
+            ),
+            Center(
+              child: ShopScreen(),
+            )
+          ],
+        ),
       
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: 'home',
+        bottomNavigationBar: Container(
+          height: 56,
+          color: Colors.white,
+          child: const TabBar(
+            indicatorSize: TabBarIndicatorSize.tab,
+            indicatorColor: Colors.black,
+            labelColor: Colors.black,
+            unselectedLabelColor: Colors.grey,
+            tabs: [
+              Tab(
+                icon: Icon(Icons.home_outlined),
+                text: 'home',
+              ),
+              Tab(
+                icon: Icon(Icons.shopping_bag_outlined),
+                text: 'shop',
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_bag_outlined),
-            label: 'shop',
-          ),
-        ],
-      )
+        ),
+      ),
     );
   }
 }
